@@ -14,9 +14,87 @@ datasource db {
 }
 
 model Instructor {
-  InstructorId Int    @id @default(autoincrement())
-  Name         String @db.VarChar(100)
-  Address      String @db.VarChar(255)
-  Email        String @unique @db.VarChar(100)
-  Mobile       String @db.VarChar(10)
+  InstructorId Int      @id @default(autoincrement())
+  Name         String   @db.VarChar(100)
+  Address      String   @db.VarChar(255)
+  Email        String   @unique @db.VarChar(100)
+  Mobile       String   @db.VarChar(10)
+  CustomerId   Int
+  Customer     Customer @relation(fields: [CustomerId], references: [CustomerId], onDelete: Cascade)
+
+  @@index([CustomerId], map: "CustomerID")
+}
+
+model Customer {
+  CustomerId Int          @id @default(autoincrement())
+  Name       String
+  Address    String
+  Email      String       @unique(map: "Email") @db.VarChar(100)
+  Mobile     String
+  Booking    Booking[]
+  Rental     Rental[]
+  Instructor Instructor[]
+}
+
+model EventPackage {
+  PackageId      Int              @id @default(autoincrement())
+  Name           String
+  Description    String
+  Price          Decimal          @db.Decimal(10, 2)
+  BookingDetails BookingDetails[]
+}
+
+model Booking {
+  BookingId      Int              @id @default(autoincrement())
+  BookedAt       DateTime?        @default(now()) @db.DateTime(0)
+  EventDate      DateTime
+  CustomerId     Int
+  Customer       Customer         @relation(fields: [CustomerId], references: [CustomerId], onDelete: Cascade)
+  BookingDetails BookingDetails[]
+
+  @@index([CustomerId], map: "CustomerID")
+}
+
+model BookingDetails {
+  BookingDetailsId Int          @id @default(autoincrement())
+  BookingId        Int
+  PackageId        Int
+  Price            Decimal      @db.Decimal(10, 2)
+  Advance          Decimal      @db.Decimal(10, 2)
+  TotalPrice       Decimal      @db.Decimal(10, 2)
+  Booking          Booking      @relation(fields: [BookingId], references: [BookingId], onDelete: Cascade, onUpdate: NoAction, map: "BookingDetails_ibfk_1")
+  EventPackage     EventPackage @relation(fields: [PackageId], references: [PackageId], onDelete: Cascade, onUpdate: NoAction, map: "BookingDetails_ibfk_2")
+
+  @@index([PackageId], map: "PackageID")
+  @@index([BookingId], map: "BookingID")
+}
+
+model Rental {
+  RentalId       Int              @id @default(autoincrement())
+  CustomerId     Int
+  RentedAt       DateTime?        @default(now()) @db.DateTime(0)
+  ReturnBy       DateTime
+  Customer       Customer         @relation(fields: [CustomerId], references: [CustomerId], onDelete: Cascade)
+  RentingDetails RentingDetails[]
+
+  @@index([CustomerId], map: "CustomerID")
+}
+
+model RentalItem {
+  RentalItemId   Int              @id @default(autoincrement())
+  Name           String           @db.VarChar(100)
+  Quantity       Int
+  Price          Decimal          @db.Decimal(10, 2)
+  RentingDetails RentingDetails[]
+}
+
+model RentingDetails {
+  RentingDetailsId Int        @id @default(autoincrement())
+  RentalId         Int
+  RentalItemId     Int
+  Price            Decimal    @db.Decimal(10, 2)
+  Rental           Rental     @relation(fields: [RentalId], references: [RentalId], onDelete: Cascade, onUpdate: NoAction, map: "RentingDetails_ibfk_1")
+  RentalItem       RentalItem @relation(fields: [RentalItemId], references: [RentalItemId], onDelete: Cascade, onUpdate: NoAction, map: "RentingDetails_ibfk_2")
+
+  @@index([RentalItemId], map: "RentalItemID")
 }

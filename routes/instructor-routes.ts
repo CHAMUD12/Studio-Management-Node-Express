@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post("/add", async (req, res) => {
     try {
-        const instructor: Instructor = req.body;
+        const instructor: Instructor = req.body; 
         const result = await addInstructor(instructor);
         res.status(201).json(result);
     } catch (err) {

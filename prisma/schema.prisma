@@ -13,6 +13,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Customer {
+  CustomerId Int          @id @default(autoincrement())
+  Name       String
+  Address    String
+  Email      String       @unique(map: "Email") @db.VarChar(100)
+  Mobile     String
+  Booking    Booking[]
+  Rental     Rental[]
+  Instructor Instructor[]
+}
+
 model Instructor {
   InstructorId Int      @id @default(autoincrement())
   Name         String   @db.VarChar(100)
@@ -23,17 +34,6 @@ model Instructor {
   Customer     Customer @relation(fields: [CustomerId], references: [CustomerId], onDelete: Cascade)
 
   @@index([CustomerId], map: "CustomerID")
-}
-
-model Customer {
-  CustomerId Int          @id @default(autoincrement())
-  Name       String
-  Address    String
-  Email      String       @unique(map: "Email") @db.VarChar(100)
-  Mobile     String
-  Booking    Booking[]
-  Rental     Rental[]
-  Instructor Instructor[]
 }
 
 model EventPackage {

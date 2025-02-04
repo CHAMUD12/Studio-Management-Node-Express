@@ -2,6 +2,7 @@ import express from 'express';
 // import instructorRoutes from "./routes/instructor-routes";
 import customerRoutes from "./routes/customer-routes";
 import eventPackageRoutes from "./routes/eventPackage-routes";
+import instructorRoutes from "./routes/instructor-routes";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use('/', (req, res, next) => {
 // app.use('/instructor', instructorRoutes)
 app.use('/customer',customerRoutes)
 app.use('/eventPackage',eventPackageRoutes)
+app.use('/instructor', instructorRoutes)
 
 app.listen(3000, (err => {
     console.log("Server running on port 3000");

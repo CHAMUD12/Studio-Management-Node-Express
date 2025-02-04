@@ -4,4 +4,5 @@ export default class Instructor {
     Address!: string;
     Email!: string;
     Mobile!: string;
+    CustomerId!: number;
 }

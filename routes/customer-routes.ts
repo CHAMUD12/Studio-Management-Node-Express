@@ -38,7 +38,7 @@ router.delete("/delete/:id", async (req, res) => {
     }
 });
 
-router.patch("/update/:id", async (req, res) => {
+router.put("/update/:id", async (req, res) => {
     try {
         const id = parseInt(req.params.id);
         const customer: Customer = req.body;

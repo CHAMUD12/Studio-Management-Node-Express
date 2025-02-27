@@ -41,7 +41,7 @@ model EventPackage {
   Name           String
   Description    String
   Price          Decimal          @db.Decimal(10, 2)
-  ImageBase64    String?
+  ImageBase64    String?          @db.Text
   BookingDetails BookingDetails[]
 }
 

@@ -5,6 +5,7 @@ import eventPackageRoutes from "./routes/eventPackage-routes";
 import instructorRoutes from "./routes/instructor-routes";
 import rentalItemRoutes from "./routes/rentalItem-routes";
 import bookingRoutes from "./routes/booking-routes";
+import rentalRoutes from "./routes/rental-routes";
 
 const app = express();
 
@@ -23,6 +24,8 @@ app.use('/eventPackage',eventPackageRoutes)
 app.use('/instructor', instructorRoutes)
 app.use('/rentalItem', rentalItemRoutes)
 app.use('/booking', bookingRoutes)
+app.use('/rental', rentalRoutes)
+
 
 app.listen(3000, (err => {
     console.log("Server running on port 3000");

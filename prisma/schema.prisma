@@ -94,6 +94,7 @@ model RentingDetails {
   RentalId         Int
   RentalItemId     Int
   Price            Decimal    @db.Decimal(10, 2)
+  Quantity         Int
   Rental           Rental     @relation(fields: [RentalId], references: [RentalId], onDelete: Cascade, onUpdate: NoAction, map: "RentingDetails_ibfk_1")
   RentalItem       RentalItem @relation(fields: [RentalItemId], references: [RentalItemId], onDelete: Cascade, onUpdate: NoAction, map: "RentingDetails_ibfk_2")
 
